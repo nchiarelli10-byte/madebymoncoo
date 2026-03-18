@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Made by Mon Co — Stationery Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #e8547a; --pink-light: #fadadd; --pink-pale: #fff0f5;
+  --lavender: #b08ed4; --text: #3a2040; --text-muted: #9a7090;
+  --white: #ffffff; --border: #f5c0d0; --radius: 16px; --radius-sm: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #fff8fb; color: var(--text); }
+nav { background: var(--white); border-bottom: 2px solid var(--pink-light); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 100; }
+.nav-logo { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--pink); cursor: pointer; }
+.nav-logo span { color: var(--lavender); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links button { background: none; border: none; font-size: 14px; font-weight: 700; color: var(--text-muted); cursor: pointer; font-family: 'Nunito', sans-serif; }
+.nav-links button:hover, .nav-links button.active { color: var(--pink); }
+.cart-btn { background: var(--pink); color: white; border: none; border-radius: 24px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 6px; }
+.cart-btn:hover { background: #d03a60; }
+.cart-count { background: white; color: var(--pink); border-radius: 50%; width: 18px; height: 18px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+.page { display: none; }
+.page.active { display: block; }
+.hero { background: linear-gradient(160deg, #ffe8f2 0%, #f5e8ff 50%, #e8f8f0 100%); padding: 60px 2rem 70px; text-align: center; }
+.hero-badge { display: inline-block; background: var(--pink-light); color: var(--pink); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; padding: 5px 16px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
+.hero h1 { font-family: 'Fredoka One', cursive; font-size: clamp(36px, 6vw, 56px); color: var(--pink); line-height: 1.1; margin-bottom: 10px; }
+.hero h1 span { color: var(--lavender); }
+.hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 28px; max-width: 420px; margin-left: auto; margin-right: auto; }
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--pink); color: white; border: none; border-radius: 28px; padding: 13px 28px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.btn-primary:hover { background: #d03a60; }
+.btn-secondary { background: white; color: var(--pink); border: 2px solid var(--border); border-radius: 28px; padding: 11px 26px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.btn-secondary:hover { border-color: var(--pink); }
+.trust-bar { background: var(--white); border-bottom: 1.5px solid var(--pink-light); display: flex; justify-content: center; flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 8px; padding: 14px 24px; border-right: 1.5px solid var(--pink-light); }
+.trust-item:last-child { border-right: none; }
+.trust-icon { font-size: 18px; }
+.trust-text { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.section { padding: 50px 2rem; max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 800; color: var(--pink); letter-spacing: 2px; text-transform: uppercase; text-align: center; margin-bottom: 6px; }
+.section-title { font-family: 'Fredoka One', cursive; font-size: 30px; color: var(--text); text-align: center; margin-bottom: 28px; }
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.cat-card { background: var(--white); border: 2px solid var(--pink-light); border-radius: var(--radius); padding: 24px 16px; text-align: center; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
+.cat-card:hover { border-color: var(--pink); transform: translateY(-4px); }
+.cat-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+.cat-name { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+.cat-sub { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.shop-section { padding: 40px 2rem; max-width: 1100px; margin: 0 auto; }
+.shop-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-tab { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.2s; }
+.filter-tab:hover, .filter-tab.active { background: var(--pink); border-color: var(--pink); color: white; }
+.prod-count { font-size: 13px; color: var(--text-muted); font-weight: 700; }
+.prod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+.prod-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s; }
+.prod-card:hover { transform: translateY(-4px); }
+.prod-img { height: 200px; overflow: hidden; position: relative; background: var(--pink-pale); display: flex; align-items: center; justify-content: center; }
+.prod-img img { width: 100%; height: 100%; object-fit: cover; }
+.prod-badge { position: absolute; top: 10px; left: 10px; background: var(--pink); color: white; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; }
+.prod-info { padding: 14px; }
+.prod-cat { font-size: 11px; font-weight: 700; color: var(--lavender); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.prod-name { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+.prod-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+.prod-footer { display: flex; align-items: center; justify-content: space-between; }
+.prod-price { font-size: 17px; font-weight: 900; color: var(--pink); }
+.add-btn { background: var(--pink-light); color: var(--pink); border: none; border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.2s; }
+.add-btn:hover { background: var(--pink); color: white; }
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(58,32,64,0.4); z-index: 200; }
+.cart-overlay.open { display: block; }
+.cart-drawer { position: fixed; top: 0; right: -420px; width: 400px; max-width: 95vw; height: 100vh; background: var(--white); z-index: 300; display: flex; flex-direction: column; transition: right 0.3s ease; border-left: 2px solid var(--pink-light); }
+.cart-drawer.open { right: 0; }
+.cart-header { padding: 20px 24px; border-bottom: 1.5px solid var(--pink-light); display: flex; align-items: center; justify-content: space-between; }
+.cart-header h3 { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--pink); }
+.close-btn { background: var(--pink-light); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 16px; cursor: pointer; color: var(--pink); display: flex; align-items: center; justify-content: center; }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+.cart-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.cart-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--pink-light); }
+.cart-item-img { width: 52px; height: 52px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: var(--pink-pale); }
+.cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.cart-item-info { flex: 1; }
+.cart-item-name { font-size: 13px; font-weight: 800; color: var(--text); }
+.cart-item-price { font-size: 13px; color: var(--pink); font-weight: 700; }
+.cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.qty-btn { background: var(--pink-light); border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; cursor: pointer; color: var(--pink); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.qty-num { font-size: 13px; font-weight: 800; min-width: 16px; text-align: center; }
+.remove-btn { background: none; border: none; font-size: 16px; cursor: pointer; color: #ccc; }
+.remove-btn:hover { color: var(--pink); }
+.cart-footer { padding: 20px 24px; border-top: 1.5px solid var(--pink-light); }
+.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.cart-total-label { font-size: 16px; font-weight: 700; color: var(--text-muted); }
+.cart-total-amount { font-size: 22px; font-weight: 900; color: var(--pink); }
+.checkout-btn { width: 100%; background: var(--pink); color: white; border: none; border-radius: 28px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.checkout-btn:hover { background: #d03a60; }
+.stripe-note { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 10px; font-weight: 600; }
+.social-banner { background: linear-gradient(135deg, #f5e0ff, #ffe0f0); padding: 50px 2rem; text-align: center; }
+.social-banner h2 { font-family: 'Fredoka One', cursive; font-size: 30px; color: var(--lavender); margin-bottom: 8px; }
+.social-banner p { font-size: 15px; color: #a070c0; margin-bottom: 22px; }
+.social-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.etsy-btn { background: #f56400; color: white; border: none; border-radius: 24px; padding: 11px 24px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.tiktok-btn { background: #010101; color: white; border: none; border-radius: 24px; padding: 11px 24px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.about-hero { background: linear-gradient(160deg, #ffe8f2, #f5e8ff); padding: 60px 2rem; text-align: center; }
+.about-hero h1 { font-family: 'Fredoka One', cursive; font-size: 42px; color: var(--pink); margin-bottom: 12px; }
+.about-hero p { font-size: 16px; color: var(--text-muted); max-width: 520px; margin: 0 auto; line-height: 1.8; }
+.about-content { max-width: 700px; margin: 0 auto; padding: 50px 2rem; }
+.about-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+.about-card h3 { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--pink); margin-bottom: 10px; }
+.about-card p { font-size: 15px; color: var(--text-muted); line-height: 1.8; }
+.faq-wrap { max-width: 700px; margin: 0 auto; padding: 50px 2rem; }
+.faq-item { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 10px; overflow: hidden; }
+.faq-q { padding: 18px 20px; font-size: 15px; font-weight: 800; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+.faq-q:hover { color: var(--pink); }
+.faq-arrow { color: var(--pink); font-size: 18px; transition: transform 0.2s; }
+.faq-a { display: none; padding: 0 20px 18px; font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+.faq-item.open .faq-a { display: block; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+footer { background: var(--white); border-top: 2px solid var(--pink-light); padding: 28px 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-logo { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--pink); }
+.footer-logo span { color: var(--lavender); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links button { background: none; border: none; font-size: 12px; color: var(--text-muted); font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.footer-links button:hover { color: var(--pink); }
+.footer-copy { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: white; padding: 12px 24px; border-radius: 28px; font-size: 14px; font-weight: 700; z-index: 500; transition: transform 0.3s; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+@media (max-width: 700px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } .nav-links { display: none; } footer { flex-direction: column; text-align: center; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">made by <span>mon</span> co</div>
+  <div class="nav-links">
+    <button id="nav-home" class="active" onclick="showPage('home')">Home</button>
+    <button id="nav-shop" onclick="showPage('shop')">Shop</button>
+    <button id="nav-about" onclick="showPage('about')">About</button>
+    <button id="nav-faq" onclick="showPage('faq')">FAQ</button>
+  </div>
+  <button class="cart-btn" onclick="openCart()">
+    &#128717; Cart <span class="cart-count" id="cart-count">0</span>
+  </button>
+</nav>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <h3>Your bag</h3>
+    <button class="close-btn" onclick="closeCart()">X</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      <div style="font-size:48px;margin-bottom:12px;">&#127872;</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Your bag is empty!</div>
+      <div style="font-size:13px;">Add some cute stuff to get started.</div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-amount" id="cart-total">$0.00</span>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">Checkout securely</button>
+    <div class="stripe-note">Powered by Stripe - Safe and secure</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">Stationery Shop</div>
+    <h1>Cute stationery for<br><span>every occasion</span></h1>
+    <p>Sticker sheets, junk journal packs, memo pads and more - handpicked and packed with love</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('shop')">Shop all products</button>
+      <button class="btn-secondary" onclick="showPage('about')">Our story</button>
+    </div>
+  </div>
+  <div class="trust-bar">
+    <div class="trust-item"><span class="trust-icon">&#128230;</span><span class="trust-text">Ships in 1-3 days</span></div>
+    <div class="trust-item"><span class="trust-icon">&#128140;</span><span class="trust-text">Hand-packed with love</span></div>
+    <div class="trust-item"><span class="trust-icon">&#11088;</span><span class="trust-text">5-star Etsy shop</span></div>
+    <div class="trust-item"><span class="trust-icon">&#128274;</span><span class="trust-text">Secure checkout</span></div>
+  </div>
+  <div class="section">
+    <div class="section-label">Browse by category</div>
+    <div class="section-title">What are you looking for?</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="goToCategory('Sticker Sheets')"><span class="cat-icon">&#127800;</span><div class="cat-name">Sticker Sheets</div><div class="cat-sub">Bows, buttons, alphabet and more</div></div>
+      <div class="cat-card" onclick="goToCategory('Junk Journal Packs')"><span class="cat-icon">&#128214;</span><div class="cat-name">Junk Journal Packs</div><div class="cat-sub">Ephemera, papers and kits</div></div>
+      <div class="cat-card" onclick="goToCategory('Memo Pads')"><span class="cat-icon">&#127822;</span><div class="cat-name">Memo Pads</div><div class="cat-sub">Shaped notepads</div></div>
+      <div class="cat-card" onclick="goToCategory('Self Love & Mental Health')"><span class="cat-icon">&#128155;</span><div class="cat-name">Self Love and Mental Health</div><div class="cat-sub">Affirmation stickers</div></div>
+    </div>
+  </div>
+  <div class="shop-section">
+    <div class="section-label">Customer favorites</div>
+    <div class="section-title">Fan favorites</div>
+    <div class="prod-grid" id="featured-grid"></div>
+    <div style="text-align:center;margin-top:28px;"><button class="btn-primary" onclick="showPage('shop')">View all products</button></div>
+  </div>
+  <div class="social-banner">
+    <h2>Also find us on</h2>
+    <p>Follow along for new drops, restocks and behind-the-scenes content</p>
+    <div class="social-btns">
+      <button class="etsy-btn" onclick="window.open('https://www.etsy.com/shop/MadebymonCo','_blank')">Etsy Shop</button>
+      <button class="tiktok-btn" onclick="window.open('https://www.tiktok.com/@made_by_mon','_blank')">TikTok</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-shop">
+  <div style="background:linear-gradient(135deg,#ffe8f2,#f5e8ff);padding:40px 2rem;text-align:center;">
+    <h1 style="font-family:'Fredoka One',cursive;font-size:36px;color:var(--pink);margin-bottom:8px;">Shop everything</h1>
+    <p style="color:var(--text-muted);font-size:15px;">Sticker sheets, junk journal packs, memo pads and affirmation stickers</p>
+  </div>
+  <div class="shop-section">
+    <div class="shop-header">
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="setFilter('All', this)">All</button>
+        <button class="filter-tab" onclick="setFilter('Sticker Sheets', this)">Sticker Sheets</button>
+        <button class="filter-tab" onclick="setFilter('Junk Journal Packs', this)">Junk Journal Packs</button>
+        <button class="filter-tab" onclick="setFilter('Memo Pads', this)">Memo Pads</button>
+        <button class="filter-tab" onclick="setFilter('Self Love & Mental Health', this)">Self Love</button>
+      </div>
+      <div class="prod-count" id="prod-count"></div>
+    </div>
+    <div class="prod-grid" id="shop-grid"></div>
+  </div>
+</div>
+
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <h1>Hi, I'm Mon!</h1>
+    <p>Welcome to Made by Mon Co - a little stationery shop filled with things that make everyday life a bit more cute and colorful.</p>
+  </div>
+  <div class="about-content">
+    <div class="about-card"><h3>Our story</h3><p>Made by Mon Co started as a passion project born from a love of all things cute, kawaii, and crafty. What began as a small Etsy shop has grown into a full stationery brand loved by journalers, scrapbookers, and sticker collectors everywhere.</p></div>
+    <div class="about-card"><h3>What we sell</h3><p>From adorable bow and button sticker sheets to cottagecore junk journal kits, gingham easter stickers to Y2K retro decals - there is something here for every mood, season, and aesthetic.</p></div>
+    <div class="about-card"><h3>Made with love</h3><p>Every order is hand-packed by me, Mon. I care deeply about making sure your goodies arrive safely, beautifully wrapped, and ready to brighten your day. Thank you so much for supporting a small business.</p></div>
+    <div class="about-card"><h3>Mental health matters</h3><p>Made by Mon Co is also a space for self love and healing. Our affirmation stickers are designed with eating disorder recovery and mental health in mind - because everyone deserves a reminder that they are worthy, loved, and enough.</p></div>
+    <div style="text-align:center;margin-top:32px;"><button class="btn-primary" onclick="showPage('shop')">Shop the collection</button></div>
+  </div>
+</div>
+
+<div class="page" id="page-faq">
+  <div style="background:linear-gradient(135deg,#ffe8f2,#f5e8ff);padding:40px 2rem;text-align:center;">
+    <h1 style="font-family:'Fredoka One',cursive;font-size:36px;color:var(--pink);margin-bottom:8px;">FAQs</h1>
+    <p style="color:var(--text-muted);font-size:15px;">Everything you need to know before you shop</p>
+  </div>
+  <div class="faq-wrap">
+    <div class="faq-item"><div class="faq-q">How long does shipping take? <span class="faq-arrow">&#9662;</span></div><div class="faq-a">All orders are processed within 1-3 business days. Once shipped, domestic orders typically arrive within 3-7 business days.</div></div>
+    <div class="faq-item"><div class="faq-q">Do you ship internationally? <span class="faq-arrow">&#9662;</span></div><div class="faq-a">Yes! We ship worldwide. International shipping times vary, typically 7-21 business days. Customs fees may apply.</div></div>
+    <div class="faq-item"><div class="faq-q">What is your return policy? <span class="faq-arrow">&#9662;</span></div><div class="faq-a">We don't accept returns unless an item arrives damaged or incorrect. Please reach out within 7 days of delivery and we'll make it right!</div></div>
+    <div class="faq-item"><div class="faq-q">Can I cancel or change my order? <span class="faq-arrow">&#9662;</span></div><div class="faq-a">Orders can be cancelled or changed within 24 hours of purchase. Reach out as soon as possible and we'll do our best!</div></div>
+    <div class="faq-item"><div class="faq-q">How are payments processed? <span class="faq-arrow">&#9662;</span></div><div class="faq-a">All payments are securely processed through Stripe. We accept all major credit and debit cards.</div></div>
+    <div class="faq-item"><div class="faq-q">Can I find you on Etsy or TikTok? <span class="faq-arrow">&#9662;</span></div><div class="faq-a">Yes! Shop us at MadebymonCo on Etsy and follow @made_by_mon on TikTok for new drops and behind-the-scenes content!</div></div>
+    <div style="text-align:center;margin-top:32px;"><p style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">Still have a question?</p><a href="/cdn-cgi/l/email-protection#8ae2efe6e6e5cae7ebeeefe8f3e7e5e4e9e5a4e9e5e7" class="btn-primary" style="display:inline-block;">Email us</a></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">made by <span>mon</span> co</div>
+  <div class="footer-links">
+    <button onclick="showPage('faq')">Shipping policy</button>
+    <button onclick="showPage('faq')">Returns</button>
+    <button onclick="showPage('about')">About</button>
+    <a href="/cdn-cgi/l/email-protection#90f8f5fcfcffd0fdf1f4f5f2e9fdfffef3ffbef3fffd" style="font-size:12px;color:var(--text-muted);font-weight:700;">Contact</a>
+  </div>
+  <div class="footer-copy">2025 Made by Mon Co. All rights reserved.</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var STRIPE_KEY = 'pk_test_51TCPZuGphutK1S1WWdJYOrtDXhHJ2L5j7FYExmUyU5sSAQGnfDcJv8CIIoHJ8CBBeR8U5GKxPxny60VhPPUCUbUI00MxImlYAr';
+
+var products = [
+  {id:1,  name:'Bow Sticker Sheet', cat:'Sticker Sheets', price:4.95, img:'images/bow.png', badge:'Best Seller', desc:'15 beautiful gingham and satin bow stickers in every color. Perfect for journals, planners, happy mail and scrapbooks.'},
+  {id:2,  name:'Button Sticker Sheet', cat:'Sticker Sheets', price:4.95, img:'images/button.png', badge:'Best Seller', desc:'40+ adorable button stickers in fun shapes - hearts, stars, flowers, butterflies and bunnies. Packed with kawaii charm.'},
+  {id:3,  name:'Peter Rabbit Garden Junk Journal Kit', cat:'Junk Journal Packs', price:9.99, img:'images/peter-rabbit.png', badge:null, desc:'A whimsical Peter Rabbit themed kit complete with garden map, evidence card, seed packet ephemera and charming die cuts.'},
+  {id:4,  name:'Blue Ransom Letter Stickers', cat:'Sticker Sheets', price:3.99, img:'images/blue-ransom.png', badge:null, desc:'Full A-Z alphabet in a cool blue collage cutout style. Perfect for spelling out names, labels and journal headings.'},
+  {id:5,  name:'Pink Heart Alphabet Stickers', cat:'Sticker Sheets', price:4.49, img:'images/pink-heart-alpha.png', badge:null, desc:'Coquette-style full alphabet stickers - every letter sits inside an adorable pink heart. Girly, cute and totally dreamy.'},
+  {id:6,  name:'Spring Junk Journal Kit', cat:'Junk Journal Packs', price:19.99, img:'images/spring-kit.png', badge:'Best Seller', desc:'An overflowing spring kit with pastel scrapbook papers, strawberry alphabet stickers, seed packet cards, doily and tons of ephemera.'},
+  {id:7,  name:'Vintage Spring Sticker Sheet', cat:'Sticker Sheets', price:4.95, img:'images/vintage-spring.png', badge:null, desc:'Cottagecore at its finest - Peter Rabbit, a duck in rain boots, ladybirds, butterflies, birdhouses and wildflowers.'},
+  {id:8,  name:'Pastel Spring Sticker Sheet', cat:'Sticker Sheets', price:3.99, img:'images/pastel-spring.png', badge:null, desc:'Soft pastel spring stickers featuring a pink butterfly, goose, tulip watering can and Peter Rabbit. Perfect for planner decorating.'},
+  {id:9,  name:'Y2K Sticker Sheet', cat:'Sticker Sheets', price:3.99, img:'images/y2k.png', badge:'Trending', desc:'Total 2000s nostalgia - flip phone, boombox, digital camera, 1 new message window and smiley faces. Retro kawaii vibes.'},
+  {id:10, name:'Garden Sticker Sheet', cat:'Sticker Sheets', price:3.95, img:'images/garden.png', badge:null, desc:'Charming cottagecore garden stickers - trowel, watering can, seed packets, carrots, tomatoes and garden gloves.'},
+  {id:11, name:'Pink Ransom Letter Stickers', cat:'Sticker Sheets', price:3.99, img:'images/pink-ransom.png', badge:null, desc:'Full A-Z alphabet in a girly pink collage cutout style. The perfect feminine pair to our blue ransom alphabet sheet.'},
+  {id:12, name:'Coquette Sticker Sheet', cat:'Sticker Sheets', price:3.95, img:'images/coquette.png', badge:null, desc:'Dreamy coquette aesthetic - ballet shoes, swan, teddy bear, croissant, heart cake, cherries and bows. Pure Pinterest magic.'},
+  {id:13, name:'Spring Scrapbook Paper Pack', cat:'Junk Journal Packs', price:10.99, img:'images/spring-paper.png', badge:null, desc:'5 gorgeous pastel sheets in gingham, polka dot, stripes and a sweet scalloped design. Essential for any journaling project.'},
+  {id:14, name:'Bow, Star and Button Bundle', cat:'Sticker Sheets', price:12.95, img:'images/bundle.png', badge:'Best Value', desc:'Get all three signature sticker sheets in one bundle - bows, stars and buttons. The ultimate journaling starter pack.'},
+  {id:15, name:'Heart Sticker Sheet', cat:'Sticker Sheets', price:4.49, img:'images/heart.png', badge:null, desc:'20 patchwork hearts in gingham, polka dot, stripes and quilted fabrics. Cottagecore and cozy - perfect for happy mail.'},
+  {id:16, name:'Patch Gingham Stickers', cat:'Sticker Sheets', price:4.95, img:'images/patch.png', badge:null, desc:'Coquette gingham patch shapes - bunnies, stars, hearts, flowers and lemons in the most delicious pastel color palette.'},
+  {id:17, name:'Apple Shaped Memo Pad', cat:'Memo Pads', price:4.49, img:'images/apple-memo.png', badge:null, desc:'The cutest gingham apple-shaped notepad. Perfect as a teacher gift, desk accessory or for adding notes to your journal spreads.'},
+  {id:18, name:'Gingham Easter Sticker Sheet', cat:'Sticker Sheets', price:3.25, img:'images/easter.png', badge:'Seasonal', desc:'Pastel gingham bunnies, tulips, butterflies, ladybirds and carrots - perfect for Easter journals and spring planners.'},
+  {id:19, name:'Clip Stickers', cat:'Sticker Sheets', price:3.99, img:'images/clip.png', badge:null, desc:'Realistic binder clips, bulldog clips and push pins in every color. Makes your journal pages look editorial and professional.'},
+  {id:20, name:'Strawberry Alphabet Sticker Sheet', cat:'Sticker Sheets', price:3.95, img:'images/strawberry-alpha.png', badge:null, desc:'Full A-Z alphabet where every letter sits on a cute red strawberry. Comes with red gingham and green polka dot background papers.'},
+  {id:21, name:'Farmers Market Junk Journal Pack', cat:'Junk Journal Packs', price:20.99, img:'images/farmers-market.png', badge:'New', desc:'A full cottagecore farmers market kit - chalkboard sign, gingham basket, produce stickers, market haul card and patterned papers.'},
+  {id:22, name:'Star Sticker Sheet', cat:'Sticker Sheets', price:3.95, img:'images/star.png', badge:null, desc:'20 stars in every texture - polka dot, gingham, glitter, stripes and solid colors. Perfect for rating pages and journal spreads.'},
+  {id:23, name:'The Mirror That Smiles Back', cat:'Self Love & Mental Health', price:2.95, img:'images/mirror.png', badge:'Special', desc:'A beautiful eating disorder recovery and mental health affirmation sticker. A gentle daily reminder that you are worthy, loved and enough.'}
+];
+
+var cart = [];
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(function(b) { b.classList.remove('active'); });
+  var btn = document.getElementById('nav-' + name);
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goToCategory(cat) {
+  showPage('shop');
+  setTimeout(function() {
+    var tabs = document.querySelectorAll('.filter-tab');
+    tabs.forEach(function(t) {
+      var label = t.textContent.trim();
+      if (label === cat || (cat === 'Self Love & Mental Health' && label === 'Self Love')) {
+        setFilter(cat, t);
+      }
+    });
+  }, 50);
+}
+
+function setFilter(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  var filtered = cat === 'All' ? products : products.filter(function(p) { return p.cat === cat; });
+  document.getElementById('prod-count').textContent = filtered.length + ' products';
+  renderGrid('shop-grid', filtered);
+}
+
+function renderGrid(id, items) {
+  var html = '';
+  for (var i = 0; i < items.length; i++) {
+    var p = items[i];
+    html += '<div class="prod-card">';
+    html += '<div class="prod-img">';
+    if (p.badge) html += '<div class="prod-badge">' + p.badge + '</div>';
+    html += '<img src="' + p.img + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;">';
+    html += '</div>';
+    html += '<div class="prod-info">';
+    html += '<div class="prod-cat">' + p.cat + '</div>';
+    html += '<div class="prod-name">' + p.name + '</div>';
+    html += '<div class="prod-desc">' + p.desc + '</div>';
+    html += '<div class="prod-footer">';
+    html += '<div class="prod-price">$' + p.price.toFixed(2) + '</div>';
+    html += '<button class="add-btn" onclick="addToCart(' + p.id + ')">+ Add</button>';
+    html += '</div></div></div>';
+  }
+  document.getElementById(id).innerHTML = html;
+}
+
+function addToCart(id) {
+  var prod = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) { prod = products[i]; break; }
+  }
+  if (!prod) return;
+  var existing = null;
+  for (var i = 0; i < cart.length; i++) {
+    if (cart[i].id === id) { existing = cart[i]; break; }
+  }
+  if (existing) { existing.qty++; }
+  else { cart.push({id: prod.id, name: prod.name, price: prod.price, img: prod.img, qty: 1}); }
+  updateCart();
+  showToast('Added to bag!');
+}
+
+function changeQty(id, delta) {
+  for (var i = 0; i < cart.length; i++) {
+    if (cart[i].id === id) {
+      cart[i].qty += delta;
+      if (cart[i].qty <= 0) cart.splice(i, 1);
+      break;
+    }
+  }
+  updateCart();
+}
+
+function removeItem(id) {
+  cart = cart.filter(function(c) { return c.id !== id; });
+  updateCart();
+}
+
+function updateCart() {
+  var count = 0, total = 0;
+  for (var i = 0; i < cart.length; i++) { count += cart[i].qty; total += cart[i].price * cart[i].qty; }
+  document.getElementById('cart-count').textContent = count;
+  document.getElementById('cart-total').textContent = '$' + total.toFixed(2);
+  var el = document.getElementById('cart-items');
+  if (cart.length === 0) {
+    el.innerHTML = '<div class="cart-empty"><div style="font-size:48px;margin-bottom:12px;">&#127872;</div><div style="font-size:15px;font-weight:700;margin-bottom:6px;">Your bag is empty!</div><div style="font-size:13px;">Add some cute stuff to get started.</div></div>';
+  } else {
+    var html = '';
+    for (var i = 0; i < cart.length; i++) {
+      var c = cart[i];
+      html += '<div class="cart-item">';
+      html += '<div class="cart-item-img"><img src="' + c.img + '" alt="' + c.name + '"></div>';
+      html += '<div class="cart-item-info">';
+      html += '<div class="cart-item-name">' + c.name + '</div>';
+      html += '<div class="cart-item-price">$' + (c.price * c.qty).toFixed(2) + '</div>';
+      html += '<div class="cart-item-qty">';
+      html += '<button class="qty-btn" onclick="changeQty(' + c.id + ', -1)">-</button>';
+      html += '<span class="qty-num">' + c.qty + '</span>';
+      html += '<button class="qty-btn" onclick="changeQty(' + c.id + ', 1)">+</button>';
+      html += '</div></div>';
+      html += '<button class="remove-btn" onclick="removeItem(' + c.id + ')">X</button>';
+      html += '</div>';
+    }
+    el.innerHTML = html;
+  }
+}
+
+function openCart() {
+  document.getElementById('cart-overlay').classList.add('open');
+  document.getElementById('cart-drawer').classList.add('open');
+}
+
+function closeCart() {
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.getElementById('cart-drawer').classList.remove('open');
+}
+
+document.getElementById('cart-overlay').onclick = closeCart;
+
+function checkout() {
+  if (cart.length === 0) { showToast('Your bag is empty!'); return; }
+  showToast('Redirecting to secure checkout...');
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+
+document.querySelectorAll('.faq-item').forEach(function(item) {
+  item.querySelector('.faq-q').addEventListener('click', function() {
+    item.classList.toggle('open');
+  });
+});
+
+var featured = products.filter(function(p) { return p.badge && ['Best Seller','Best Value','Trending'].includes(p.badge); })
